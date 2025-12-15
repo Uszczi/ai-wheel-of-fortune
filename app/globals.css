@@ -12,6 +12,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  --color-app-bg: #373837;
+  --color-app-action: #a5be00;
+  --color-app-action-text: #000000
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

@@ -4,7 +4,7 @@ import WheelTitle from "./WheelTittle";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between bg-[#373837]">
+    <div className="bg-app-bg flex min-h-screen flex-col items-center justify-between">
       <header>
         <h1>AI powered Wheel of Fortune</h1>
       </header>

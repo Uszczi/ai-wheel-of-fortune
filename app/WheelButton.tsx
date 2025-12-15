@@ -1,7 +1,7 @@
 export default function WheelButton() {
   return (
-    <div className="bg-[#b62304]">
-      <button>Spin the wheel</button>
-    </div>
+    <button className="bg-app-action text-app-action-text h-20 w-67">
+      Spin the wheel
+    </button>
   );
 }
