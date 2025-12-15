@@ -13,13 +13,14 @@ import Wheel from "./Wheel";
 import WheelButton from "./WheelButton";
 import WheelPointer from "./WheelPointer";
 import WheelTitle from "./WheelTittle";
+import WheelWinner from "./WheelWinner";
 
 export default function Home() {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
   const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
-  const [winnerPhrase, setWinnerPhrase] = useState<string | null>(null);
+  const [winnerPhrase, setWinnerPhrase] = useState("");
 
   const segments = DEFAULT_SEGMENTS;
 
@@ -43,8 +44,9 @@ export default function Home() {
     const spinPadding = fullSpins * 360;
 
     // TODO fix this
+    // It's not working :D
     const targetRotation =
-      rotation + spinPadding + (360 - winningIndex * sliceAngle) + 10;
+      rotation + spinPadding + (360 - winningIndex * sliceAngle);
 
     setRotation(targetRotation);
 
@@ -55,11 +57,7 @@ export default function Home() {
       );
       setIsSpinning(false);
 
-      const randomWinPhrase =
-        WIN_PHRASES[Math.floor(Math.random() * WIN_PHRASES.length)];
-      setWinnerPhrase(
-        `${randomWinPhrase} The result is: ${segments[winningIndex].label}.`,
-      );
+      setWinnerPhrase(`${segments[winningIndex].label}.`);
     }, 3000);
   };
 
@@ -67,12 +65,17 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white">
       <WheelTitle />
       <WheelPointer />
-      <Wheel segments={segments} rotation={rotation} isSpinning={isSpinning} />
+      <div className="relative">
+        <Wheel
+          segments={segments}
+          rotation={rotation}
+          isSpinning={isSpinning}
+        />
+        <WheelWinner text={winnerPhrase} />
+      </div>
       <WheelButton onClick={spinWheel} disabled={isSpinning}>
         {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
       </WheelButton>
-
-      <p>{winnerPhrase}</p>
     </div>
   );
 }
