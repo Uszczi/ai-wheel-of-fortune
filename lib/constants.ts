@@ -49,11 +49,8 @@ export const DEFAULT_SEGMENTS: Segment[] = [
   { label: "Bag of Gold", color: "#FACC15" },
   { label: "Cursed Ring", color: "#1F2937" },
   { label: "Dragon Egg", color: "#9333EA" },
-  { label: "Empty Bottle", color: "#D1D5DB" },
   { label: "Healing Potion", color: "#F43F5E" },
   { label: "Invisibility Cloak", color: "#06B6D4" },
-  { label: "Magic Scroll", color: "#3B82F6" },
-  { label: "Phoenix Feather", color: "#EA580C" },
   { label: "Rusty Dagger", color: "#9CA3AF" },
   { label: "Wooden Shield", color: "#D97706" },
 ];
