@@ -65,7 +65,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 px-4 py-6 text-white sm:px-6 md:px-8 md:py-8">
       <WheelTitle />
       <WheelPointer />
-      <div className="relative w-full max-w-[90vw] sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
+      <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
         <Wheel
           segments={segments}
           rotation={rotation}
