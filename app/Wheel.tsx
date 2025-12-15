@@ -4,25 +4,12 @@ export interface Segment {
 }
 
 export interface WheelProps {
-  segments?: Segment[];
+  rotation: number;
+  isSpinning: boolean;
+  segments: Segment[];
 }
 
-const DEFAULT_SEGMENTS: Segment[] = [
-  { color: "#FF6B6B", label: "Prize 1" },
-  { color: "#4ECDC4", label: "Prize 2" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#96CEB4", label: "Prize 4" },
-  { color: "#FFEAA7", label: "Prize 5" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#DDA0DD", label: "Prize 6" },
-  { color: "#98D8C8", label: "Prize 7" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#F7DC6F", label: "Prize 8" },
-  { color: "#45B7D1", label: "Prize 3" },
-];
-
-const Wheel = ({ segments = DEFAULT_SEGMENTS }: WheelProps) => {
+const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
   const radius = 200;
   const size = radius * 2;
   const center = radius;
@@ -51,45 +38,55 @@ const Wheel = ({ segments = DEFAULT_SEGMENTS }: WheelProps) => {
   };
 
   return (
-    <svg
-      width={size * 2.5}
-      height={size * 2.5}
-      viewBox={`-1 -1 ${size + 2} ${size + 2}`}
+    <div
+      className="mt-2"
+      style={{
+        transform: `rotate(${rotation}deg)`,
+        transition: isSpinning
+          ? "transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)"
+          : "none",
+      }}
     >
-      {segments.map((segment, index) => {
-        const sliceAngle = 360 / segments.length;
+      <svg
+        width={size * 2.5}
+        height={size * 2.5}
+        viewBox={`-1 -1 ${size + 2} ${size + 2}`}
+      >
+        {segments.map((segment, index) => {
+          const sliceAngle = 360 / segments.length;
 
-        const startAngle = index * sliceAngle;
-        const endAngle = startAngle + sliceAngle;
+          const startAngle = index * sliceAngle;
+          const endAngle = startAngle + sliceAngle;
 
-        const midAngle = startAngle + sliceAngle / 2;
-        const textPos = getCoordinates(midAngle, radius * 0.65);
-        const textRotation = midAngle + 90;
+          const midAngle = startAngle + sliceAngle / 2;
+          const textPos = getCoordinates(midAngle, radius * 0.65);
+          const textRotation = midAngle + 90;
 
-        return (
-          <g key={index}>
-            <path
-              d={getSlicePath(startAngle, endAngle)}
-              fill={segment.color}
-              stroke="white"
-              strokeWidth="2"
-            />
-            <text
-              x={textPos.x}
-              y={textPos.y}
-              fill="white"
-              fontSize="18"
-              fontWeight="bold"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              transform={`rotate(${textRotation}, ${textPos.x}, ${textPos.y})`}
-            >
-              {segment.label}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+          return (
+            <g key={index}>
+              <path
+                d={getSlicePath(startAngle, endAngle)}
+                fill={segment.color}
+                stroke="white"
+                strokeWidth="2"
+              />
+              <text
+                x={textPos.x}
+                y={textPos.y}
+                fill="white"
+                fontSize="18"
+                fontWeight="bold"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                transform={`rotate(${textRotation}, ${textPos.x}, ${textPos.y})`}
+              >
+                {segment.label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
   );
 };
 

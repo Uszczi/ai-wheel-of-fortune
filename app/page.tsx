@@ -6,6 +6,7 @@ import { useState } from "react";
 import Wheel from "./Wheel";
 
 import WheelButton from "./WheelButton";
+import WheelPointer from "./WheelPointer";
 import WheelTitle from "./WheelTittle";
 
 export default function Home() {
@@ -54,22 +55,9 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white">
-      <svg width="40" height="40" viewBox="0 0 40 40" className="fill-white">
-        <path d="M 20 40 L 0 0 L 40 0 Z" />
-      </svg>
-
-      <div
-        className="mt-2"
-        style={{
-          transform: `rotate(${rotation}deg)`,
-          transition: isSpinning
-            ? "transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)"
-            : "none",
-        }}
-      >
-        <Wheel segments={segments} />
-      </div>
-
+      <WheelTitle />
+      <WheelPointer />
+      <Wheel segments={segments} rotation={rotation} isSpinning={isSpinning} />
       <WheelButton onClick={spinWheel} disabled={isSpinning}>
         {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
       </WheelButton>
