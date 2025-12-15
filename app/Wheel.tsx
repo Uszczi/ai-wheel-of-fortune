@@ -48,8 +48,8 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
       }}
     >
       <svg
-        width={size * 2.5}
-        height={size * 2.5}
+        width={size * 4}
+        height={size * 4}
         viewBox={`-1 -1 ${size + 2} ${size + 2}`}
       >
         {segments.map((segment, index) => {
@@ -74,7 +74,7 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
                 x={textPos.x}
                 y={textPos.y}
                 fill="white"
-                fontSize="18"
+                fontSize="14"
                 fontWeight="bold"
                 textAnchor="middle"
                 dominantBaseline="middle"

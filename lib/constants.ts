@@ -46,16 +46,14 @@ export const SPIN_PHRASES = [
 ];
 
 export const DEFAULT_SEGMENTS: Segment[] = [
-  { color: "#FF6B6B", label: "Prize 1" },
-  { color: "#4ECDC4", label: "Prize 2" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#96CEB4", label: "Prize 4" },
-  { color: "#FFEAA7", label: "Prize 5" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#DDA0DD", label: "Prize 6" },
-  { color: "#98D8C8", label: "Prize 7" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#45B7D1", label: "Prize 3" },
-  { color: "#F7DC6F", label: "Prize 8" },
-  { color: "#45B7D1", label: "Prize 3" },
+  { label: "Bag of Gold", color: "#FACC15" },
+  { label: "Cursed Ring", color: "#1F2937" },
+  { label: "Dragon Egg", color: "#9333EA" },
+  { label: "Empty Bottle", color: "#D1D5DB" },
+  { label: "Healing Potion", color: "#F43F5E" },
+  { label: "Invisibility Cloak", color: "#06B6D4" },
+  { label: "Magic Scroll", color: "#3B82F6" },
+  { label: "Phoenix Feather", color: "#EA580C" },
+  { label: "Rusty Dagger", color: "#9CA3AF" },
+  { label: "Wooden Shield", color: "#D97706" },
 ];
