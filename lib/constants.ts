@@ -1,5 +1,33 @@
 import { Segment } from "@/app/Wheel";
 
+export const START_PHRASES = [
+  "Meet Your Fortune",
+  "Consult The Oracle",
+  "Discover Your Prize",
+  "Fate Is Waiting",
+  "Let Fate Decide",
+  "Reveal Your Luck",
+  "Test Your Destiny",
+  "Unlock Your Future",
+  "What Will It Be?",
+  "Your Destiny Awaits",
+];
+
+export const WIN_PHRASES = [
+  "The Oracle has spoken!",
+  "Destiny has delivered!",
+  "The stars have aligned!",
+  "Behold your fortune!",
+  "Fate has chosen wisely.",
+  "The prophecy is fulfilled!",
+  "Victory is yours!",
+  "The wheel never lies!",
+  "Your future is secured!",
+  "A worthy reward!",
+  "Luck was on your side!",
+  "Claim your destiny!",
+];
+
 export const SPIN_PHRASES = [
   "Almost there...",
   "Come on, Jackpot!",
@@ -15,19 +43,6 @@ export const SPIN_PHRASES = [
   "The anticipation is killing me!",
   "Where will it stop? Nobody knows!",
   "Round and round it goes...",
-];
-
-export const START_PHRASES = [
-  "Meet Your Fortune",
-  "Consult The Oracle",
-  "Discover Your Prize",
-  "Fate Is Waiting",
-  "Let Fate Decide",
-  "Reveal Your Luck",
-  "Test Your Destiny",
-  "Unlock Your Future",
-  "What Will It Be?",
-  "Your Destiny Awaits",
 ];
 
 export const DEFAULT_SEGMENTS: Segment[] = [

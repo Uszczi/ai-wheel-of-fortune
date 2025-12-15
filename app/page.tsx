@@ -1,6 +1,11 @@
 "use client";
 
-import { START_PHRASES, SPIN_PHRASES, DEFAULT_SEGMENTS } from "@/lib/constants";
+import {
+  START_PHRASES,
+  SPIN_PHRASES,
+  DEFAULT_SEGMENTS,
+  WIN_PHRASES,
+} from "@/lib/constants";
 import { useState } from "react";
 
 import Wheel from "./Wheel";
@@ -11,10 +16,10 @@ import WheelTitle from "./WheelTittle";
 
 export default function Home() {
   const [rotation, setRotation] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
   const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
   const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [winner, setWinner] = useState<string | null>(null);
+  const [winnerPhrase, setWinnerPhrase] = useState<string | null>(null);
 
   const segments = DEFAULT_SEGMENTS;
 
@@ -23,7 +28,7 @@ export default function Home() {
 
     setRotation(rotation % 360);
     setIsSpinning(true);
-    setWinner(null);
+    setWinnerPhrase(null);
 
     setBtnSpinningPhrase(
       SPIN_PHRASES[Math.floor(Math.random() * SPIN_PHRASES.length)],
@@ -49,7 +54,12 @@ export default function Home() {
         START_PHRASES[Math.floor(Math.random() * START_PHRASES.length)],
       );
       setIsSpinning(false);
-      setWinner(segments[winningIndex].label);
+
+      const randomWinPhrase =
+        WIN_PHRASES[Math.floor(Math.random() * WIN_PHRASES.length)];
+      setWinnerPhrase(
+        `${randomWinPhrase} The result is: ${segments[winningIndex].label}.`,
+      );
     }, 3000);
   };
 
@@ -61,6 +71,8 @@ export default function Home() {
       <WheelButton onClick={spinWheel} disabled={isSpinning}>
         {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
       </WheelButton>
+
+      <p>{winnerPhrase}</p>
     </div>
   );
 }
