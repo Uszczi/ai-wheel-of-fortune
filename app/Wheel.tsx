@@ -10,7 +10,7 @@ export interface WheelProps {
 }
 
 const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
-  const radius = 200;
+  const radius = 150;
   const size = radius * 2;
   const center = radius;
 
@@ -39,7 +39,7 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
 
   return (
     <div
-      className="mt-2"
+      className="mt-2 w-full"
       style={{
         transform: `rotate(${rotation}deg)`,
         transition: isSpinning
@@ -48,9 +48,9 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
       }}
     >
       <svg
-        width={size * 2}
-        height={size * 2}
+        className="h-auto w-full"
         viewBox={`-1 -1 ${size + 2} ${size + 2}`}
+        preserveAspectRatio="xMidYMid meet"
       >
         {segments.map((segment, index) => {
           const sliceAngle = 360 / segments.length;
@@ -74,11 +74,11 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
                 x={textPos.x}
                 y={textPos.y}
                 fill="white"
-                fontSize="14"
                 fontWeight="bold"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 transform={`rotate(${textRotation}, ${textPos.x}, ${textPos.y})`}
+                className="text-[10px] sm:text-xs md:text-sm"
               >
                 {segment.label}
               </text>

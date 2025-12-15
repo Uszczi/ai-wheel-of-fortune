@@ -1,7 +1,10 @@
 const VictoryShield = ({ text = "Victory Is Yours!" }: { text?: string }) => {
   return (
     <div className="relative flex items-center justify-center">
-      <svg width="350" height="150" viewBox="0 0 350 150">
+      <svg
+        viewBox="0 0 350 150"
+        className="h-auto w-[260px] sm:w-[300px] md:w-[330px] lg:w-[350px]"
+      >
         <defs>
           <linearGradient id="goldSheen" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#FCD34D" />
@@ -39,9 +42,10 @@ const VictoryShield = ({ text = "Victory Is Yours!" }: { text?: string }) => {
           dominantBaseline="middle"
           fontFamily="Arial, sans-serif"
           fontWeight="900"
-          fontSize="22"
+          fontSize="16"
           fill="white"
           style={{ textShadow: "0px 2px 4px rgba(0,0,0,0.8)" }}
+          className="text-base sm:text-lg md:text-xl lg:text-2xl"
         >
           {text}
         </text>

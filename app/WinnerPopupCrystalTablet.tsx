@@ -5,7 +5,10 @@ const CrystalTablet = ({
 }) => {
   return (
     <div className="relative flex items-center justify-center">
-      <svg width="360" height="120" viewBox="0 0 360 120">
+      <svg
+        viewBox="0 0 360 120"
+        className="h-auto w-[270px] sm:w-[310px] md:w-[340px] lg:w-[360px]"
+      >
         <defs>
           <linearGradient id="crystalGradient" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="rgba(6, 182, 212, 0.8)" /> {/* Cyan */}
@@ -40,9 +43,10 @@ const CrystalTablet = ({
           dominantBaseline="middle"
           fontFamily="Courier New, monospace"
           fontWeight="bold"
-          fontSize="20"
+          fontSize="16"
           fill="white"
           letterSpacing="2"
+          className="text-sm sm:text-base md:text-lg lg:text-xl"
         >
           {text.toUpperCase()}
         </text>

@@ -5,7 +5,10 @@ const ScrollBanner = ({
 }) => {
   return (
     <div className="relative flex items-center justify-center self-center">
-      <svg width="400" height="120" viewBox="0 0 400 120">
+      <svg
+        viewBox="0 0 400 120"
+        className="h-auto w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px]"
+      >
         <defs>
           <filter
             id="scrollShadow"
@@ -62,8 +65,9 @@ const ScrollBanner = ({
           dominantBaseline="middle"
           fontFamily="'Times New Roman', serif"
           fontWeight="bold"
-          fontSize="20"
+          fontSize="16"
           fill="#3e2723"
+          className="text-sm sm:text-base md:text-lg lg:text-xl"
         >
           {text}
         </text>
