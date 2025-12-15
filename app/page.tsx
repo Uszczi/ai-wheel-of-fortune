@@ -20,7 +20,7 @@ export default function Home() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
   const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
-  const [winnerPhrase, setWinnerPhrase] = useState("");
+  const [winnerPhrase, setWinnerPhrase] = useState<string | null>("");
 
   const segments = DEFAULT_SEGMENTS;
 
