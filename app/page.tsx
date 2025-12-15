@@ -13,7 +13,7 @@ export default function Home() {
   const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
   const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
   const [isSpinning, setIsSpinning] = useState(false);
-  const [winner, setWinner] = useState(null);
+  const [winner, setWinner] = useState<string | null>(null);
 
   const segments = DEFAULT_SEGMENTS;
 
@@ -70,13 +70,9 @@ export default function Home() {
         <Wheel segments={segments} />
       </div>
 
-      <button
-        onClick={spinWheel}
-        disabled={isSpinning}
-        className="z-10 mt-4 rounded-full bg-red-600 px-8 py-3 text-xl font-bold hover:bg-red-700 disabled:opacity-50"
-      >
+      <WheelButton onClick={spinWheel} disabled={isSpinning}>
         {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
-      </button>
+      </WheelButton>
     </div>
   );
 }
