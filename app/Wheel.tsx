@@ -53,39 +53,102 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
         viewBox={`-1 -1 ${size + 2} ${size + 2}`}
         preserveAspectRatio="xMidYMid meet"
       >
-        {segments.map((segment, index) => {
-          const sliceAngle = 360 / segments.length;
+        {segments.length === 0 ? (
+          <>
+            {Array.from({ length: 8 }).map((_, index) => {
+              const dummyCount = 8;
+              const sliceAngle = 360 / dummyCount;
+              const startAngle = index * sliceAngle;
+              const endAngle = startAngle + sliceAngle;
 
-          const startAngle = index * sliceAngle;
-          const endAngle = startAngle + sliceAngle;
+              return (
+                <path
+                  key={index}
+                  d={getSlicePath(startAngle, endAngle)}
+                  fill={COLOR_SEGMENTS[index % COLOR_SEGMENTS.length]}
+                  fillOpacity="0.5"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+              );
+            })}
 
-          const midAngle = startAngle + sliceAngle / 2;
-          const textPos = getCoordinates(midAngle, radius * 0.65);
-          const textRotation = midAngle + 90;
+            <circle
+              cx={center}
+              cy={center}
+              r={radius * 0.3}
+              fill="white"
+              filter="drop-shadow(0px 4px 4px rgba(0,0,0,0.2))"
+            />
+            <text
+              x={center}
+              y={center}
+              fill="#374151"
+              fontWeight="bold"
+              fontSize="12"
+              textAnchor="middle"
+              dominantBaseline="middle"
+            >
+              ADD ITEMS
+            </text>
+          </>
+        ) : segments.length === 1 ? (
+          <g>
+            <circle
+              cx={center}
+              cy={center}
+              r={radius}
+              fill={COLOR_SEGMENTS[0]}
+              stroke="white"
+              strokeWidth="2"
+            />
+            <text
+              x={center}
+              y={center}
+              fill="white"
+              fontWeight="bold"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-xl sm:text-2xl"
+            >
+              {segments[0].label}
+            </text>
+          </g>
+        ) : (
+          segments.map((segment, index) => {
+            const sliceAngle = 360 / segments.length;
 
-          return (
-            <g key={index}>
-              <path
-                d={getSlicePath(startAngle, endAngle)}
-                fill={COLOR_SEGMENTS[index % COLOR_SEGMENTS.length]}
-                stroke="white"
-                strokeWidth="2"
-              />
-              <text
-                x={textPos.x}
-                y={textPos.y}
-                fill="white"
-                fontWeight="bold"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                transform={`rotate(${textRotation}, ${textPos.x}, ${textPos.y})`}
-                className="text-[10px] sm:text-xs md:text-sm"
-              >
-                {segment.label}
-              </text>
-            </g>
-          );
-        })}
+            const startAngle = index * sliceAngle;
+            const endAngle = startAngle + sliceAngle;
+
+            const midAngle = startAngle + sliceAngle / 2;
+            const textPos = getCoordinates(midAngle, radius * 0.65);
+            const textRotation = midAngle + 90;
+
+            return (
+              <g key={index}>
+                <path
+                  d={getSlicePath(startAngle, endAngle)}
+                  fill={COLOR_SEGMENTS[index % COLOR_SEGMENTS.length]}
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                <text
+                  x={textPos.x}
+                  y={textPos.y}
+                  fill="white"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  transform={`rotate(${textRotation}, ${textPos.x}, ${textPos.y})`}
+                  className="text-[10px] sm:text-xs md:text-sm"
+                >
+                  {segment.label}
+                </text>
+              </g>
+            );
+          })
+        )}
       </svg>
     </div>
   );

@@ -23,8 +23,18 @@ export default function Home() {
   const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
   const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
   const [winnerPhrase, setWinnerPhrase] = useState("");
+  const [segments, setSegments] = useState(DEFAULT_SEGMENTS);
+  const [segmentsText, setSegmentsText] = useState(DEFAULT_SEGMENTS_STRING);
 
-  const segments = DEFAULT_SEGMENTS;
+  const handleSegmentsChange = (text: string) => {
+    setSegmentsText(text);
+    setWinnerPhrase("");
+
+    const lines = text.split("\n").filter((line) => line.trim() !== "");
+    const newSegments = lines.map((line) => ({ label: line.trim() }));
+
+    setSegments(newSegments);
+  };
 
   const spinWheel = () => {
     if (isSpinning) return;
@@ -80,7 +90,7 @@ export default function Home() {
       </WheelButton>
 
       <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
-        <WheelTextArea value={DEFAULT_SEGMENTS_STRING} />
+        <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
       </div>
     </div>
   );
