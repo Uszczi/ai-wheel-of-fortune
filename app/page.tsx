@@ -4,10 +4,9 @@ import {
   START_PHRASES,
   SPIN_PHRASES,
   DEFAULT_SEGMENTS,
-  WIN_PHRASES,
   DEFAULT_SEGMENTS_STRING,
 } from "@/lib/constants";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Wheel from "./Wheel";
 import Header from "./Header";
@@ -19,14 +18,68 @@ import WheelTextArea from "./WheelTextArea";
 import WheelClearButton from "./WheelClearButton";
 import WheelAIButton from "./WheelAIButton";
 
+function loadSegmentsFromURL() {
+  if (typeof window === "undefined") {
+    return {
+      segmentsText: DEFAULT_SEGMENTS_STRING,
+      segments: DEFAULT_SEGMENTS,
+    };
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const encoded = params.get("s");
+
+  if (encoded) {
+    try {
+      const decoded = decodeURIComponent(encoded);
+      if (decoded) {
+        const lines = decoded.split("\n").filter((line) => line.trim() !== "");
+        const segments = lines.map((line) => ({ label: line.trim() }));
+        return { segmentsText: decoded, segments };
+      }
+    } catch (error) {
+      console.error("Failed to decode segments from URL:", error);
+    }
+  }
+
+  return {
+    segmentsText: DEFAULT_SEGMENTS_STRING,
+    segments: DEFAULT_SEGMENTS,
+  };
+}
+
 export default function Home() {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
   const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
   const [winnerPhrase, setWinnerPhrase] = useState("");
-  const [segments, setSegments] = useState(DEFAULT_SEGMENTS);
-  const [segmentsText, setSegmentsText] = useState(DEFAULT_SEGMENTS_STRING);
+  const [segments, setSegments] = useState(
+    () => loadSegmentsFromURL().segments,
+  );
+  const [segmentsText, setSegmentsText] = useState(
+    () => loadSegmentsFromURL().segmentsText,
+  );
+
+  // Update URL when segments text changes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (segmentsText.trim()) {
+      const encoded = encodeURIComponent(segmentsText);
+      params.set("s", encoded);
+    } else {
+      params.delete("s");
+    }
+
+    const newUrl = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+
+    window.history.replaceState({}, "", newUrl);
+  }, [segmentsText]);
 
   const handleSegmentsChange = (text: string) => {
     setSegmentsText(text);
