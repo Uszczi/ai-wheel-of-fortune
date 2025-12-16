@@ -16,6 +16,7 @@ import WheelPointer from "./WheelPointer";
 import WheelTitle from "./WheelTittle";
 import WheelWinner from "./WheelWinner";
 import WheelTextArea from "./WheelTextArea";
+import WheelClearButton from "./WheelClearButton";
 
 export default function Home() {
   const [rotation, setRotation] = useState(0);
@@ -34,6 +35,12 @@ export default function Home() {
     const newSegments = lines.map((line) => ({ label: line.trim() }));
 
     setSegments(newSegments);
+  };
+
+  const handleClearSegments = () => {
+    setSegmentsText("");
+    setSegments([]);
+    setWinnerPhrase("");
   };
 
   const spinWheel = () => {
@@ -77,7 +84,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 px-4 py-6 text-white sm:px-6 md:px-8 md:py-8">
       <WheelTitle />
       <WheelPointer />
-      <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
+      <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
         <Wheel
           segments={segments}
           rotation={rotation}
@@ -85,12 +92,19 @@ export default function Home() {
         />
         <WheelWinner text={winnerPhrase} />
       </div>
-      <WheelButton onClick={spinWheel} disabled={isSpinning}>
+      <WheelButton
+        onClick={spinWheel}
+        disabled={isSpinning || segments.length === 0}
+      >
         {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
       </WheelButton>
 
-      <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
+      <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
         <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
+        <WheelClearButton
+          onClick={handleClearSegments}
+          disabled={segmentsText.length === 0}
+        />
       </div>
     </div>
   );
