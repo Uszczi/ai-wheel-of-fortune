@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 
 import Wheel from "./Wheel";
-
+import Header from "./Header";
 import WheelButton from "./WheelButton";
 import WheelPointer from "./WheelPointer";
 import WheelTitle from "./WheelTittle";
@@ -94,32 +94,39 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 px-4 py-6 text-white sm:px-6 md:px-8 md:py-8">
-      <WheelTitle />
-      <WheelPointer />
-      <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
-        <Wheel
-          segments={segments}
-          rotation={rotation}
-          isSpinning={isSpinning}
-        />
-        <WheelWinner text={winnerPhrase} />
-      </div>
-      <WheelButton
-        onClick={spinWheel}
-        disabled={isSpinning || segments.length === 0}
-      >
-        {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
-      </WheelButton>
-
-      <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
-        <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
-        <div className="flex gap-2">
-          <WheelAIButton onClick={handleAskAI} disabled={isSpinning} />
-          <WheelClearButton
-            onClick={handleClearSegments}
-            disabled={segmentsText.length === 0}
+    <div className="flex min-h-screen flex-col bg-gray-900 text-white">
+      <Header />
+      <p className="mx-auto mt-6 max-w-2xl px-4 text-center text-gray-400">
+        Spin the wheel to discover your fortune! Add your own options below or
+        let AI generate exciting possibilities for you.
+      </p>
+      <div className="flex flex-1 flex-col items-center justify-center px-4 py-6 sm:px-6 md:px-8 md:py-8">
+        <WheelTitle />
+        <WheelPointer />
+        <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
+          <Wheel
+            segments={segments}
+            rotation={rotation}
+            isSpinning={isSpinning}
           />
+          <WheelWinner text={winnerPhrase} />
+        </div>
+        <WheelButton
+          onClick={spinWheel}
+          disabled={isSpinning || segments.length === 0}
+        >
+          {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
+        </WheelButton>
+
+        <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
+          <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
+          <div className="flex gap-2">
+            <WheelAIButton onClick={handleAskAI} disabled={isSpinning} />
+            <WheelClearButton
+              onClick={handleClearSegments}
+              disabled={segmentsText.length === 0}
+            />
+          </div>
         </div>
       </div>
     </div>
