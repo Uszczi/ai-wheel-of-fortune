@@ -17,6 +17,7 @@ import WheelTitle from "./WheelTittle";
 import WheelWinner from "./WheelWinner";
 import WheelTextArea from "./WheelTextArea";
 import WheelClearButton from "./WheelClearButton";
+import WheelAIButton from "./WheelAIButton";
 
 export default function Home() {
   const [rotation, setRotation] = useState(0);
@@ -41,6 +42,11 @@ export default function Home() {
     setSegmentsText("");
     setSegments([]);
     setWinnerPhrase("");
+  };
+
+  const handleAskAI = () => {
+    // TODO: Implement AI API call to generate segments
+    console.log("Ask AI for segments - to be implemented");
   };
 
   const spinWheel = () => {
@@ -108,10 +114,13 @@ export default function Home() {
 
       <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
         <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
-        <WheelClearButton
-          onClick={handleClearSegments}
-          disabled={segmentsText.length === 0}
-        />
+        <div className="flex gap-2">
+          <WheelAIButton onClick={handleAskAI} disabled={isSpinning} />
+          <WheelClearButton
+            onClick={handleClearSegments}
+            disabled={segmentsText.length === 0}
+          />
+        </div>
       </div>
     </div>
   );

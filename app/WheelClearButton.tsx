@@ -8,7 +8,7 @@ export default function WheelClearButton({
   return (
     <button
       onClick={onClick}
-      className="mt-2 w-full rounded-lg bg-gray-600 px-6 py-3 text-lg font-semibold text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+      className="mt-2 w-full rounded-lg bg-gray-600 px-4 py-2 text-base font-semibold text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50 md:px-6 md:py-3 md:text-lg"
       disabled={disabled}
     >
       Clear
