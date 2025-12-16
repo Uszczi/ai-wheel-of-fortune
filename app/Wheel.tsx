@@ -1,6 +1,7 @@
+import { COLOR_SEGMENTS } from "@/lib/constants";
+
 export interface Segment {
   label: string;
-  color: string;
 }
 
 export interface WheelProps {
@@ -66,7 +67,7 @@ const Wheel = ({ segments, rotation, isSpinning }: WheelProps) => {
             <g key={index}>
               <path
                 d={getSlicePath(startAngle, endAngle)}
-                fill={segment.color}
+                fill={COLOR_SEGMENTS[index % COLOR_SEGMENTS.length]}
                 stroke="white"
                 strokeWidth="2"
               />

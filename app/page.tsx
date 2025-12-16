@@ -14,6 +14,7 @@ import WheelButton from "./WheelButton";
 import WheelPointer from "./WheelPointer";
 import WheelTitle from "./WheelTittle";
 import WheelWinner from "./WheelWinner";
+import WheelTextArea from "./WheelTextArea";
 
 export default function Home() {
   const [rotation, setRotation] = useState(0);
@@ -76,6 +77,10 @@ export default function Home() {
       <WheelButton onClick={spinWheel} disabled={isSpinning}>
         {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
       </WheelButton>
+
+      <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
+        <WheelTextArea />
+      </div>
     </div>
   );
 }

@@ -45,12 +45,40 @@ export const SPIN_PHRASES = [
   "Round and round it goes...",
 ];
 
-export const DEFAULT_SEGMENTS: Segment[] = [
-  { label: "Bag of Gold", color: "#FACC15" },
-  { label: "Cursed Ring", color: "#1F2937" },
-  { label: "Dragon Egg", color: "#9333EA" },
-  { label: "Healing Potion", color: "#F43F5E" },
-  { label: "Invisibility Cloak", color: "#06B6D4" },
-  { label: "Rusty Dagger", color: "#9CA3AF" },
-  { label: "Wooden Shield", color: "#D97706" },
+export const COLOR_SEGMENTS = [
+  "#1F2937", // Dark Grey
+  "#FACC15", // Yellow
+  "#9333EA", // Purple
+  "#84CC16", // Lime
+  "#EF4444", // Red
+  "#06B6D4", // Cyan
+  "#D97706", // Amber
+  "#3B82F6", // Royal Blue
+  "#F43F5E", // Rose
+  "#10B981", // Emerald
+  "#F97316", // Orange
+  "#6366F1", // Indigo
+  "#9CA3AF", // Light Grey
+  "#D946EF", // Fuchsia
+  "#14B8A6", // Teal
+  "#EC4899", // Pink
+  "#4B5563", // Slate Grey
+  "#A855F7", // Light Purple
+  "#22C55E", // Green
+  "#8B5CF6", // Violet
+];
+
+export const DEFAULT_TITLE = "Okay, Where to Next?";
+
+export const DEFAULT_SEGMENTS = [
+  { label: "Toronto, ON" },
+  { label: "Vancouver, BC" },
+  { label: "Montreal, QC" },
+  { label: "Quebec City, QC" },
+  { label: "Ottawa, ON" },
+  { label: "Calgary, AB" },
+  { label: "Banff, AB" },
+  { label: "Victoria, BC" },
+  { label: "Halifax, NS" },
+  { label: "Niagara Falls, ON" },
 ];
