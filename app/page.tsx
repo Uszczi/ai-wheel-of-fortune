@@ -1,187 +1,57 @@
-"use client";
+import { DEFAULT_SEGMENTS, DEFAULT_SEGMENTS_STRING } from "@/lib/constants";
+import WheelClient from "./WheelClient";
 
-import {
-  START_PHRASES,
-  SPIN_PHRASES,
-  DEFAULT_SEGMENTS,
-  DEFAULT_SEGMENTS_STRING,
-} from "@/lib/constants";
-import { useState, useEffect } from "react";
+export const dynamic = "force-dynamic";
 
-import Wheel from "./Wheel";
-import Header from "./Header";
-import WheelButton from "./WheelButton";
-import WheelPointer from "./WheelPointer";
-import WheelTitle from "./WheelTittle";
-import WheelWinner from "./WheelWinner";
-import WheelTextArea from "./WheelTextArea";
-import WheelClearButton from "./WheelClearButton";
-import WheelAIButton from "./WheelAIButton";
+async function getInitialSegments(
+  searchParamsPromise:
+    | Promise<{ [key: string]: string | string[] | undefined }>
+    | { [key: string]: string | string[] | undefined },
+) {
+  const searchParams = await searchParamsPromise;
 
-function loadSegmentsFromURL() {
-  if (typeof window === "undefined") {
+  const encoded = searchParams?.s;
+
+  if (!encoded || typeof encoded !== "string") {
     return {
       segmentsText: DEFAULT_SEGMENTS_STRING,
       segments: DEFAULT_SEGMENTS,
     };
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const encoded = params.get("s");
+  try {
+    const decoded = decodeURIComponent(encoded);
+    const lines = decoded.split("\n").filter((line) => line.trim() !== "");
+    const segments = lines.map((line) => ({ label: line.trim() }));
 
-  if (encoded) {
-    try {
-      const decoded = decodeURIComponent(encoded);
-      if (decoded) {
-        const lines = decoded.split("\n").filter((line) => line.trim() !== "");
-        const segments = lines.map((line) => ({ label: line.trim() }));
-        return { segmentsText: decoded, segments };
-      }
-    } catch (error) {
-      console.error("Failed to decode segments from URL:", error);
+    if (segments.length === 0) {
+      return {
+        segmentsText: DEFAULT_SEGMENTS_STRING,
+        segments: DEFAULT_SEGMENTS,
+      };
     }
-  }
 
-  return {
-    segmentsText: DEFAULT_SEGMENTS_STRING,
-    segments: DEFAULT_SEGMENTS,
-  };
+    return { segmentsText: decoded, segments };
+  } catch (error) {
+    console.error("Failed to decode segments:", error);
+    return {
+      segmentsText: DEFAULT_SEGMENTS_STRING,
+      segments: DEFAULT_SEGMENTS,
+    };
+  }
 }
 
-export default function Home() {
-  const [rotation, setRotation] = useState(0);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
-  const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
-  const [winnerPhrase, setWinnerPhrase] = useState("");
-  const [segments, setSegments] = useState(
-    () => loadSegmentsFromURL().segments,
-  );
-  const [segmentsText, setSegmentsText] = useState(
-    () => loadSegmentsFromURL().segmentsText,
-  );
-
-  // Update URL when segments text changes
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const params = new URLSearchParams(window.location.search);
-
-    if (segmentsText.trim()) {
-      const encoded = encodeURIComponent(segmentsText);
-      params.set("s", encoded);
-    } else {
-      params.delete("s");
-    }
-
-    const newUrl = params.toString()
-      ? `${window.location.pathname}?${params.toString()}`
-      : window.location.pathname;
-
-    window.history.replaceState({}, "", newUrl);
-  }, [segmentsText]);
-
-  const handleSegmentsChange = (text: string) => {
-    setSegmentsText(text);
-    setWinnerPhrase("");
-
-    const lines = text.split("\n").filter((line) => line.trim() !== "");
-    const newSegments = lines.map((line) => ({ label: line.trim() }));
-
-    setSegments(newSegments);
-  };
-
-  const handleClearSegments = () => {
-    setSegmentsText("");
-    setSegments([]);
-    setWinnerPhrase("");
-  };
-
-  const handleAskAI = () => {
-    // TODO: Implement AI API call to generate segments
-    console.log("Ask AI for segments - to be implemented");
-  };
-
-  const spinWheel = () => {
-    if (isSpinning) return;
-
-    setRotation(rotation % 360);
-    setIsSpinning(true);
-    setWinnerPhrase("");
-
-    const cleanedText = segmentsText
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line !== "")
-      .join("\n");
-    setSegmentsText(cleanedText);
-
-    setBtnSpinningPhrase(
-      SPIN_PHRASES[Math.floor(Math.random() * SPIN_PHRASES.length)],
-    );
-
-    // TODO call API to ask AI for winner.
-    const winningIndex = Math.floor(Math.random() * segments.length);
-
-    const sliceAngle = 360 / segments.length;
-
-    const fullSpins = 5;
-    const spinPadding = fullSpins * 360;
-
-    // TODO fix this
-    // It's not working :D
-    const targetRotation =
-      rotation + spinPadding + (360 - winningIndex * sliceAngle);
-
-    setRotation(targetRotation);
-
-    // TODO make time vary
-    setTimeout(() => {
-      setBtnWaitingPhrase(
-        START_PHRASES[Math.floor(Math.random() * START_PHRASES.length)],
-      );
-      setIsSpinning(false);
-
-      setWinnerPhrase(`${segments[winningIndex].label}.`);
-    }, 3000);
-  };
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const initialData = await getInitialSegments(searchParams);
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-900 text-white">
-      <Header />
-      <p className="mx-auto mt-6 max-w-2xl px-4 text-center text-gray-400">
-        Spin the wheel to discover your fortune! Add your own options below or
-        let AI generate exciting possibilities for you.
-      </p>
-      <div className="flex flex-1 flex-col items-center justify-center px-4 py-6 sm:px-6 md:px-8 md:py-8">
-        <WheelTitle />
-        <WheelPointer />
-        <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
-          <Wheel
-            segments={segments}
-            rotation={rotation}
-            isSpinning={isSpinning}
-          />
-          <WheelWinner text={winnerPhrase} />
-        </div>
-        <WheelButton
-          onClick={spinWheel}
-          disabled={isSpinning || segments.length === 0}
-        >
-          {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
-        </WheelButton>
-
-        <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
-          <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
-          <div className="flex gap-2">
-            <WheelAIButton onClick={handleAskAI} disabled={isSpinning} />
-            <WheelClearButton
-              onClick={handleClearSegments}
-              disabled={segmentsText.length === 0}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <WheelClient
+      initialSegments={initialData.segments}
+      initialText={initialData.segmentsText}
+    />
   );
 }

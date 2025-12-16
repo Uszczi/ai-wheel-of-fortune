@@ -1,0 +1,147 @@
+"use client";
+
+import { START_PHRASES, SPIN_PHRASES } from "@/lib/constants";
+import { useState, useEffect } from "react";
+
+import Wheel from "./Wheel";
+import Header from "./Header";
+import WheelButton from "./WheelButton";
+import WheelPointer from "./WheelPointer";
+import WheelTitle from "./WheelTittle";
+import WheelWinner from "./WheelWinner";
+import WheelTextArea from "./WheelTextArea";
+import WheelClearButton from "./WheelClearButton";
+import WheelAIButton from "./WheelAIButton";
+
+interface WheelClientProps {
+  initialSegments: { label: string }[];
+  initialText: string;
+}
+
+export default function WheelClient({
+  initialSegments,
+  initialText,
+}: WheelClientProps) {
+  const [segments, setSegments] = useState(initialSegments);
+  const [segmentsText, setSegmentsText] = useState(initialText);
+
+  const [rotation, setRotation] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [btnSpinningPhrase, setBtnSpinningPhrase] = useState("");
+  const [btnWaitingPhrase, setBtnWaitingPhrase] = useState(START_PHRASES[0]);
+  const [winnerPhrase, setWinnerPhrase] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (segmentsText.trim()) {
+      const encoded = encodeURIComponent(segmentsText);
+      params.set("s", encoded);
+    } else {
+      params.delete("s");
+    }
+
+    const newUrl = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+
+    window.history.replaceState({}, "", newUrl);
+  }, [segmentsText]);
+
+  const handleSegmentsChange = (text: string) => {
+    setSegmentsText(text);
+    setWinnerPhrase("");
+    const lines = text.split("\n").filter((line) => line.trim() !== "");
+    const newSegments = lines.map((line) => ({ label: line.trim() }));
+    setSegments(newSegments);
+  };
+
+  const handleClearSegments = () => {
+    setSegmentsText("");
+    setSegments([]);
+    setWinnerPhrase("");
+  };
+
+  const handleAskAI = () => {
+    console.log("AI not implemented");
+  };
+
+  const spinWheel = () => {
+    if (isSpinning) return;
+
+    setRotation(rotation % 360);
+    setIsSpinning(true);
+    setWinnerPhrase("");
+
+    // Force sync text to segments before spin just in case
+    const cleanedText = segmentsText
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line !== "")
+      .join("\n");
+    setSegmentsText(cleanedText);
+
+    setBtnSpinningPhrase(
+      SPIN_PHRASES[Math.floor(Math.random() * SPIN_PHRASES.length)],
+    );
+
+    const winningIndex = Math.floor(Math.random() * segments.length);
+    const sliceAngle = 360 / segments.length;
+    const fullSpins = 5;
+    const spinPadding = fullSpins * 360;
+
+    const targetRotation =
+      rotation + spinPadding + (360 - winningIndex * sliceAngle);
+
+    setRotation(targetRotation);
+
+    setTimeout(() => {
+      setBtnWaitingPhrase(
+        START_PHRASES[Math.floor(Math.random() * START_PHRASES.length)],
+      );
+      setIsSpinning(false);
+      setWinnerPhrase(`${segments[winningIndex].label}.`);
+    }, 3000);
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col bg-gray-900 text-white">
+      <Header />
+      <p className="mx-auto mt-6 max-w-2xl px-4 text-center text-gray-400">
+        Spin the wheel to discover your fortune! Add your own options below or
+        let AI generate exciting possibilities for you.
+      </p>
+      <div className="flex flex-1 flex-col items-center justify-center px-4 py-6 sm:px-6 md:px-8 md:py-8">
+        <WheelTitle />
+        <WheelPointer />
+        <div className="relative w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
+          <Wheel
+            segments={segments}
+            rotation={rotation}
+            isSpinning={isSpinning}
+          />
+          <WheelWinner text={winnerPhrase} />
+        </div>
+        <WheelButton
+          onClick={spinWheel}
+          disabled={isSpinning || segments.length === 0}
+        >
+          {isSpinning ? btnSpinningPhrase : btnWaitingPhrase}
+        </WheelButton>
+
+        <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-125 md:max-w-150 lg:max-w-200">
+          <WheelTextArea value={segmentsText} onChange={handleSegmentsChange} />
+          <div className="flex gap-2">
+            <WheelAIButton onClick={handleAskAI} disabled={isSpinning} />
+            <WheelClearButton
+              onClick={handleClearSegments}
+              disabled={segmentsText.length === 0}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
