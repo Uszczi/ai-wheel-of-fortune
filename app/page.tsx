@@ -50,6 +50,13 @@ export default function Home() {
     setIsSpinning(true);
     setWinnerPhrase("");
 
+    const cleanedText = segmentsText
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line !== "")
+      .join("\n");
+    setSegmentsText(cleanedText);
+
     setBtnSpinningPhrase(
       SPIN_PHRASES[Math.floor(Math.random() * SPIN_PHRASES.length)],
     );

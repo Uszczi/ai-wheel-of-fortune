@@ -11,7 +11,7 @@ export default function WheelTextArea({
     <Textarea
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      rows={15}
+      rows={10}
     />
   );
 }
