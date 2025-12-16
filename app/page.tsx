@@ -5,6 +5,7 @@ import {
   SPIN_PHRASES,
   DEFAULT_SEGMENTS,
   WIN_PHRASES,
+  DEFAULT_SEGMENTS_STRING,
 } from "@/lib/constants";
 import { useState } from "react";
 
@@ -79,7 +80,7 @@ export default function Home() {
       </WheelButton>
 
       <div className="mt-4 w-full max-w-[90vw] overflow-hidden sm:max-w-[500px] md:max-w-[600px] lg:max-w-[800px]">
-        <WheelTextArea />
+        <WheelTextArea value={DEFAULT_SEGMENTS_STRING} />
       </div>
     </div>
   );

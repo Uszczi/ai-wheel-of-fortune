@@ -82,3 +82,7 @@ export const DEFAULT_SEGMENTS = [
   { label: "Halifax, NS" },
   { label: "Niagara Falls, ON" },
 ];
+
+export const DEFAULT_SEGMENTS_STRING = DEFAULT_SEGMENTS.map(
+  (seg) => seg.label,
+).join("\n");
